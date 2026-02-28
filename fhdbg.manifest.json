@@ -4,7 +4,7 @@
     "Desc":"Provides a set of custom-built debugging tools for the game to ease development and testing of mods.",
     "Authors":"The Fahrenheit contributors",
     "Version":"1.0.0-alpha",
-    "Link":"https://github.com/peppy-enterprises/fh-mods-debug",
+    "Link":"https://github.com/fahrenheit-crew/fh-mods-debug",
     "Dependencies":[],
     "LoadAfter": [],
     "Flags":"SEPARATE_SAVES"
