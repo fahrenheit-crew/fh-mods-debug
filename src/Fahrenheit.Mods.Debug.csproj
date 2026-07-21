@@ -1,0 +1,11 @@
+﻿<Project Sdk="Fahrenheit.Sdk/1.0.0-alpha11">
+    <PropertyGroup>
+        <AssemblyName>fhdbg</AssemblyName>
+        <AssemblyTitle>Debug Mod</AssemblyTitle>
+        <Product>Debug Mod</Product>
+        <Authors>The Fahrenheit contributors</Authors>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/fahrenheit-crew/fh-mods-debug</RepositoryUrl>
+        <FhManifestFlags>NONE</FhManifestFlags>
+    </PropertyGroup>
+</Project>

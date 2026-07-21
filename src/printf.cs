@@ -2,34 +2,13 @@
 
 namespace Fahrenheit.Mods.Debug;
 
-/* [fkelava 17/7/25 02:33]
- * For vararg functions the delegate signature should have an argument count >=
- * the argument count of the invocation with the most varargs in the executable.
- *
- * For now we assume sixteen. If you crash with a buffer/stack overrun, increase it.
- */
-
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate void PrintfVarargDelegate(string fmt,
-    nint va0,  nint va1,  nint va2,  nint va3,
-    nint va4,  nint va5,  nint va6,  nint va7,
-    nint va8,  nint va9,  nint va10, nint va11,
-    nint va12, nint va13, nint va14, nint va15);
-
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate void PhyrePrintfDelegate(int rc, string fmt,
-    nint va0,  nint va1,  nint va2,  nint va3,
-    nint va4,  nint va5,  nint va6,  nint va7,
-    nint va8,  nint va9,  nint va10, nint va11,
-    nint va12, nint va13, nint va14, nint va15);
-
 /// <summary>
 ///     Restores the bodies of stubbed-out debug print calls within the game. The output
 ///     is logged to the Stage0 console and to disk.
 ///     <para/>
 ///     Do not interface with this module directly. It is self-contained.
 /// </summary>
-[FhLoad(FhGameId.FFX | FhGameId.FFX2)]
+[FhLoad(FhGameId.FFX | FhGameId.FFX2 | FhGameId.FFX2LM)]
 public unsafe class FhDebugPrintModule : FhModule {
 
     /* [fkelava 17/7/25 02:33]
@@ -37,28 +16,7 @@ public unsafe class FhDebugPrintModule : FhModule {
      */
     private const int _buf_sz = 16384;
 
-    private readonly FhMethodHandle<PhyrePrintfDelegate>  _h_PhyrePrintf;
-    private readonly FhMethodHandle<PrintfVarargDelegate> _h_rcPrint;
-    private readonly FhMethodHandle<PrintfVarargDelegate> _h_dbgPrintf;
-    private readonly FhMethodHandle<PrintfVarargDelegate> _h_scePrintf;
-    private readonly FhMethodHandle<PrintfVarargDelegate> _h_AtelPs2DebugString;
-    private readonly FhMethodHandle<PrintfVarargDelegate> _h_AtelPs2DebugString2;
-
-    public FhDebugPrintModule() {
-        FhMethodLocation location_dbgPrintf           = new(0x22F6B0, 0x9ADD0);
-        FhMethodLocation location_scePrintf           = new(0x22FDA0, 0x9B4B0);
-        FhMethodLocation location_AtelPs2DebugString  = new(0x473C10, 0x30E9E0);
-        FhMethodLocation location_AtelPs2DebugString2 = new(0x473C20, 0x30E9F0);
-        FhMethodLocation location_rcPrint             = new(0x527550, 0x3D9690);
-        FhMethodLocation location_PhyrePrintf         = new(0x0353F0, 0x48CC60);
-
-        _h_dbgPrintf           = new FhMethodHandle<PrintfVarargDelegate>(this, location_dbgPrintf,           h_printf);
-        _h_scePrintf           = new FhMethodHandle<PrintfVarargDelegate>(this, location_scePrintf,           h_printf);
-        _h_AtelPs2DebugString  = new FhMethodHandle<PrintfVarargDelegate>(this, location_AtelPs2DebugString,  h_printf);
-        _h_AtelPs2DebugString2 = new FhMethodHandle<PrintfVarargDelegate>(this, location_AtelPs2DebugString2, h_printf);
-        _h_rcPrint             = new FhMethodHandle<PrintfVarargDelegate>(this, location_rcPrint,             h_printf);
-        _h_PhyrePrintf         = new FhMethodHandle<PhyrePrintfDelegate> (this, location_PhyrePrintf,         h_pprintf);
-    }
+    public FhDebugPrintModule() { }
 
     [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
     private void h_pprintf(int rc, string fmt, nint va0, nint va1, nint va2, nint va3, nint va4, nint va5, nint va6, nint va7, nint va8, nint va9, nint va10, nint va11, nint va12, nint va13, nint va14, nint va15) {
@@ -91,11 +49,11 @@ public unsafe class FhDebugPrintModule : FhModule {
     }
 
     public override bool init(FhModContext mod_context, FileStream global_state_file) {
-        return _h_PhyrePrintf        .hook() &&
-               _h_rcPrint            .hook() &&
-               _h_dbgPrintf          .hook() &&
-               _h_scePrintf          .hook() &&
-               _h_AtelPs2DebugString .hook() &&
-               _h_AtelPs2DebugString2.hook();
+        return FhCall.PhyrePrintf        .hook(this, h_pprintf) &&
+               FhCall.rcPrint            .hook(this, h_printf)  &&
+               FhCall.dbgPrintf          .hook(this, h_printf)  &&
+               FhCall.scePrintf          .hook(this, h_printf)  &&
+               FhCall.AtelPs2DebugString .hook(this, h_printf)  &&
+               FhCall.AtelPs2DebugString2.hook(this, h_printf);
     }
 }
