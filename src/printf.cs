@@ -49,7 +49,7 @@ public unsafe class FhDebugPrintModule : FhModule {
     }
 
     public override bool init(FhModContext mod_context, FileStream global_state_file) {
-        return FhCall.PhyrePrintf        .hook(this, h_pprintf) &&
+        return FhCall.Phyre_PhyrePrintf  .hook(this, h_pprintf) &&
                FhCall.rcPrint            .hook(this, h_printf)  &&
                FhCall.dbgPrintf          .hook(this, h_printf)  &&
                FhCall.scePrintf          .hook(this, h_printf)  &&
