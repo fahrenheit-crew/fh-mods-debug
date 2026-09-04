@@ -3,6 +3,8 @@
         <AssemblyName>fhdbg</AssemblyName>
         <AssemblyTitle>Debug Mod</AssemblyTitle>
         <Product>Debug Mod</Product>
+        <Description>Provides a set of custom-built debugging tools for the game to ease development and testing of mods.</Description>
+        <Version>1.0.0-alpha</Version>
         <Authors>The Fahrenheit contributors</Authors>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/fahrenheit-crew/fh-mods-debug</RepositoryUrl>
