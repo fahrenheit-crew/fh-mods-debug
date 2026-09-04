@@ -1,7 +1,0 @@
-﻿<Project Sdk="Fahrenheit.Sdk/1.0.0-alpha08">
-    <PropertyGroup>
-        <AssemblyName>fhdbg</AssemblyName>
-        <AssemblyTitle>Fahrenheit Debug Mod for Final Fantasy X/X-2</AssemblyTitle>
-        <Product>Fahrenheit Debug Mod for Final Fantasy X/X-2</Product>
-    </PropertyGroup>
-</Project>
